@@ -1,0 +1,27 @@
+{
+  "name": "promise",
+  "version": "0.0.0",
+  "description": "pfeil =====",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "gulp": "~3.8.8",
+    "promises-aplus-tests": "~2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "./script/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sterpe/pfeil.git"
+  },
+  "author": "sterpe <srterpe@gmail.com> (https://github.com/sterpe)",
+  "license": "Copyright 2014, the Rubicon Project.",
+  "bugs": {
+    "url": "https://github.com/sterpe/pfeil/issues"
+  },
+  "homepage": "https://github.com/sterpe/pfeil"
+}
