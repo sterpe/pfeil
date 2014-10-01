@@ -1,3 +1,3 @@
 module.exports = {
-	deferred: require('../lib/promise')
+	deferred: require('../index.js')
 };
