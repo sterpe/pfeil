@@ -2,7 +2,7 @@
   "name": "pfeil",
   "version": "0.0.0",
   "description": "pfeil =====",
-  "main": "index.js",
+  "main": "dist/pfeil.min.js",
   "directories": {},
   "dependencies": {
     "asap": "^1.0.0"

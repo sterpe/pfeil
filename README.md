@@ -1,7 +1,7 @@
 pfeil
 =====
 
-A decently fast-ish, minimalistic [Promises/A+]( https://promisesaplus.com/) implementation in under 4Kb.
+A decently fast-ish, minimalistic [Promises/A+]( https://promisesaplus.com/) implementation in under 4Kb that works in the browser or in node.
 
 ###API###
 
