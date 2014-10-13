@@ -1,8 +1,8 @@
 {
-  "name": "promise",
+  "name": "pfeil",
   "version": "0.0.0",
   "description": "pfeil =====",
-  "main": "gulpfile.js",
+  "main": "index.js",
   "directories": {},
   "dependencies": {
     "asap": "^1.0.0"
@@ -15,7 +15,7 @@
     "rimraf": "^2.2.8"
   },
   "scripts": {
-    "test": "node node_modules/promises-aplus-tests/lib/cli.js ./test/adaptor.js"
+    "test": "scripts/test"
   },
   "repository": {
     "type": "git",
