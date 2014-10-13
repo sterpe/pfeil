@@ -13,7 +13,7 @@ gulp.task('bundle', ['clean'], function () {
 	return browserify({
 			entries: './index.js'
 			, detectGlobals: false
-			, standalone: 'pfeil'
+    			, standalone: 'pfeil'
 		})
 		.bundle()
 		.on('error', function (e) {
@@ -22,6 +22,28 @@ gulp.task('bundle', ['clean'], function () {
 		})
 		.pipe(vinylSourceStream('pfeil.js'))
 		.pipe(gulp.dest('./dist'))
+});
+
+gulp.task('closure-compile', ['bundle'], function (cb) {
+	var spawn = child_process.spawn
+	, child = spawn('java', [
+		'-jar'
+		, './bin/closure-compiler/compiler.jar'
+		, '--compilation_level'
+		, 'ADVANCED_OPTIMIZATIONS'
+		, '--js_output_file'
+		, './dist/pfeil.min.js'
+		, '--externs'
+		, './lib/externs.js'
+		, './dist/pfeil.js'
+	], {
+		stdio: "inherit"
+	})
+	;
+	
+	child.on('close', function (err) {
+		cb(err);
+	});
 });
 
 gulp.task('test', function (cb) {
