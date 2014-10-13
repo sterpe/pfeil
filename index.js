@@ -1,6 +1,8 @@
 var Promise = require('./lib/promise')
 ;
 
-module.exports = function () {
-	return new Promise().deferred;
+module.exports = {
+	"defer": function () {
+		return new Promise().deferred;
+	}
 };

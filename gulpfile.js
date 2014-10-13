@@ -14,7 +14,7 @@ gulp.task('bundle', ['clean'], function () {
 	return browserify({
 			entries: './index.js'
 			, detectGlobals: false
-    			, standalone: 'pfeil.defer'
+    			, standalone: 'pfeil'
 		})
 		.bundle()
 		.on('error', function (e) {
