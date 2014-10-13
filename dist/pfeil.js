@@ -1,19 +1,12 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.pfeil=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),(f.pfeil||(f.pfeil={})).defer=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Promise = require('./lib/promise')
-, window = require('./lib/window')
 ;
 
 module.exports = function () {
 	return new Promise().deferred;
 };
 
-if (window) {
-	window["pfeil"] = {
-		"defer": module.exports
-	};
-}
-
-},{"./lib/promise":6,"./lib/window":9}],2:[function(require,module,exports){
+},{"./lib/promise":6}],2:[function(require,module,exports){
 module.exports = function (promise) {
 	var chain = []
 	;
@@ -126,7 +119,7 @@ module.exports = function (promise) {
 },{"./next-tick":4,"./thenable":8}],4:[function(require,module,exports){
 module.exports = require('asap');
 
-},{"asap":10}],5:[function(require,module,exports){
+},{"asap":9}],5:[function(require,module,exports){
 var Thenable = require('./thenable')
 ;
 module.exports = function (promise, x) {
@@ -228,9 +221,6 @@ module.exports = function Thenable(promise) {
 };
 
 },{}],9:[function(require,module,exports){
-module.exports = 'undefined' !== typeof window ? window : void 0;
-
-},{}],10:[function(require,module,exports){
 
 // Use the fastest possible means to execute a task in a future turn
 // of the event loop.

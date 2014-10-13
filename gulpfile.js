@@ -3,6 +3,7 @@ var gulp = require('gulp')
 , browserify = require('browserify')
 , vinylSourceStream = require('vinyl-source-stream')
 , rimraf = require('rimraf')
+, chmod = require('gulp-chmod')
 ;
 
 gulp.task('clean', function (cb) {
@@ -13,7 +14,7 @@ gulp.task('bundle', ['clean'], function () {
 	return browserify({
 			entries: './index.js'
 			, detectGlobals: false
-    			, standalone: 'pfeil'
+    			, standalone: 'pfeil.defer'
 		})
 		.bundle()
 		.on('error', function (e) {
@@ -21,6 +22,7 @@ gulp.task('bundle', ['clean'], function () {
 			process.exit(1);
 		})
 		.pipe(vinylSourceStream('pfeil.js'))
+		.pipe(chmod(644))
 		.pipe(gulp.dest('./dist'))
 });
 
@@ -35,6 +37,10 @@ gulp.task('closure-compile', ['bundle'], function (cb) {
 		, './dist/pfeil.min.js'
 		, '--externs'
 		, './lib/externs.js'
+		, '--jscomp_off'
+		, 'uselessCode'
+		, '--output_wrapper'
+		, '(function(){%output%}());'
 		, './dist/pfeil.js'
 	], {
 		stdio: "inherit"
