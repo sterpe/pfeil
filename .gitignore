@@ -1,2 +1,3 @@
+bin/closure-compiler/
 node_modules/
 dist/
