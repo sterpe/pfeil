@@ -4,22 +4,23 @@
   "description": "pfeil =====",
   "main": "gulpfile.js",
   "directories": {
-    "test": "test"
   },
   "dependencies": {
-    "gulp": "~3.8.8",
-    "promises-aplus-tests": "~2.1.0"
+    "asap": "^1.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "promises-aplus-tests": "^2.1.0"
+  },
   "scripts": {
-    "test": "./script/test"
+    "test": "node node_modules/promises-aplus-tests/lib/cli.js ./test/adaptor.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/sterpe/pfeil.git"
   },
   "author": "sterpe <srterpe@gmail.com> (https://github.com/sterpe)",
-  "license": "Copyright 2014, the Rubicon Project.",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sterpe/pfeil/issues"
   },

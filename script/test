@@ -1,1 +1,0 @@
-node ./node_modules/promises-aplus-tests/lib/cli.js ./test/adaptor.js
