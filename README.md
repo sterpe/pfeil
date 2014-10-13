@@ -23,4 +23,6 @@ Add `onFulfilled`/`onRejected` handlers that will be called when the promise res
 
 These should take the form: `function (x|e) {}` where x|e is either the promise's value or rejection reason.
 
-That's basically it.  Promises/A+ compliant.
+That's basically it.
+
+Enjoy.
