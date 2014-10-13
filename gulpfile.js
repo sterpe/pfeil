@@ -47,12 +47,10 @@ gulp.task('closure-compile', ['bundle'], function (cb) {
 	})
 	;
 	
-	child.on('close', function (err) {
-		cb(err);
-	});
+	child.on('close', cb);
 });
 
-gulp.task('test', function (cb) {
+gulp.task('test', ['closure-compile'], function (cb) {
 	var spawn = child_process.spawn
 	, child
 	;
@@ -65,4 +63,4 @@ gulp.task('test', function (cb) {
 	});
 });
 
-gulp.task('default', ['bundle']);
+gulp.task('default', ['closure-compile']);
