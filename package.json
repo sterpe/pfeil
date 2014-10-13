@@ -1,7 +1,18 @@
 {
   "name": "pfeil",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Decently fast, mnimalistic Promises/A+ for node & the browser.",
+  "keywords": [
+    "pfeil",
+    "promise",
+    "promise/a+",
+    "minimalist",
+    "fast",
+    "small",
+    "Kb",
+    "lightweight",
+    "then"
+  ],
   "main": "dist/pfeil.min.js",
   "directories": {},
   "dependencies": {
