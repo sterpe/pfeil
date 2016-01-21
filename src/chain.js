@@ -9,6 +9,12 @@
     flush: Function,
     push: Function
   } & Array<Promise>)
+
+  type ChainedObject = {
+    onRejected: Function,
+    onFulfilled: Function,
+    promise: Promise
+  }
 */
 const assign = require('object-assign')
 const Promise = require('./promise') // eslint-disable-line no-unused-vars
@@ -17,7 +23,7 @@ function ChainFactory (promise/* : Promise */)/* : Chain */ {
   return assign([], {
     flushing: false,
 
-    reject: function (nextPromise/* : Promise */) {
+    reject: function (nextPromise/* : ChainedObject */) {
       const onRejected = nextPromise.onRejected
       const self = promise.state
 
@@ -30,7 +36,7 @@ function ChainFactory (promise/* : Promise */)/* : Chain */ {
         nextPromise.promise.state.reject(self.value)
       }
     },
-    resolve: function (nextPromise/* : Promise */) {
+    resolve: function (nextPromise/* : ChainedObject */) {
       const onFulfilled = nextPromise.onFulfilled
       const self = promise.state
 
@@ -43,13 +49,13 @@ function ChainFactory (promise/* : Promise */)/* : Chain */ {
         nextPromise.promise.state.resolve(self.value)
       }
     },
-    evaluate: function (nextPromise/* : Promise */) {
+    evaluate: function (nextPromise/* : ChainedObject */) {
       const self = promise.state
       try {
         if (self.state === 'rejected') {
-          this.reject(nextPromise/* : Promise */)
+          this.reject(nextPromise)
         } else {
-          this.resolve(nextPromise/* : Promise */)
+          this.resolve(nextPromise)
         }
       } catch (e) {
         nextPromise.promise.state.reject(e)

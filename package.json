@@ -9,9 +9,9 @@
     "compile": "scripts/cc.sh",
     "dist": "npm run bundle && npm run compile",
     "predist": "npm run clean && mkdir dist",
-    "pretest": "npm run standard && npm run dist",
+    "pretest": "npm run dist",
     "standard": "standard index.js src/**/*.js",
-    "test": "PFEIL_PATH=../dist/pfeil.js promises-aplus-tests scripts/adapter.js"
+    "test": "PFEIL_PATH=../dist/pfeil.min.js promises-aplus-tests scripts/adapter.js"
   },
   "keywords": [
     "pfeil",
@@ -51,6 +51,7 @@
     "jest-cli": "^0.8.2",
     "promises-aplus-tests": "^2.1.0",
     "standard": "^5.4.1",
+    "uglify-js": "^2.6.1",
     "watch": "^0.17.1"
   }
 }
