@@ -1,2 +1,2 @@
-bin/closure-compiler/
 node_modules/
+*.buf*

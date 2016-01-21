@@ -1,8 +1,0 @@
-#!/bin/sh
-
-rm -rf ./bin/closure-compiler
-mkdir -p ./bin/closure-compiler
-
-curl -LSo ./bin/closure-compiler/compiler-latest.zip \
-	http://dl.google.com/closure-compiler/compiler-latest.zip
-unzip ./bin/closure-compiler/compiler-latest.zip -d ./bin/closure-compiler

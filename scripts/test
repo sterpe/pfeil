@@ -1,4 +1,0 @@
-#!/bin/sh
-
-node node_modules/promises-aplus-tests/lib/cli.js ./test/adaptor.js
-node node_modules/promises-aplus-tests/lib/cli.js ./test/adaptor.min.js
