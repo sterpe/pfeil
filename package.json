@@ -8,10 +8,12 @@
     "clean": "rm -rf dist",
     "compile": "scripts/cc.sh",
     "dist": "npm run bundle && npm run compile",
+    "flow": "flow",
     "predist": "npm run clean && mkdir dist",
     "pretest": "npm run dist",
+    "promises-aplus-tests": "PFEIL_PATH=../dist/pfeil.min.js promises-aplus-tests scripts/adapter.js",
     "standard": "standard index.js src/**/*.js",
-    "test": "PFEIL_PATH=../dist/pfeil.min.js promises-aplus-tests scripts/adapter.js"
+    "test": "npm run standard && jest -c .jestrc --coverage && npm run promises-aplus-tests"
   },
   "keywords": [
     "pfeil",
@@ -37,7 +39,6 @@
   "homepage": "https://github.com/sterpe/pfeil",
   "dependencies": {
     "asap": "^1.0.0",
-    "lodash.isarray": "^4.0.0",
     "object-assign": "^4.0.1"
   },
   "devDependencies": {

@@ -1,24 +1,80 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.pfeil=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-"use strict";
+'use strict';
 
-var Promise = _dereq_("./src/promise");
-var Deferred = _dereq_("./src/deferred"); // eslint-disable-line no-unused-vars
-var Thenable = _dereq_("./src/thenable"); // eslint-disable-line no-unused-vars
-var isArray /* : ((x: any) => boolean) */ = _dereq_("lodash.isarray");
+var Promise = _dereq_('./src/promise');
+var Deferred = _dereq_('./src/deferred'); // eslint-disable-line no-unused-vars
+var Thenable = _dereq_('./src/thenable'); // eslint-disable-line no-unused-vars
 
+/* ::
+  type F = {
+    done: Array<boolean>,
+    value: Array<any>,
+    error: Array<number>
+  }
+*/
+
+var memoize = function memoize(promise /* : Thenable */, flags /* : F */, test /* : Function */) {
+  var i /* : number */ = flags.done.length;
+  var flag /* : boolean */ = false;
+
+  var setFlag = function setFlag() {
+    flags.done[i] = !flag;
+    test();
+  };
+
+  flags.done[i] = flag;
+
+  promise.then(function (x) {
+    flags.value[i] = x;
+    flags.error[i] = 0;
+    setFlag();
+    return x;
+  }, function (e) {
+    flags.value[i] = e;
+    flags.error[i] = 1;
+    setFlag();
+    throw e;
+  });
+};
 module.exports = {
-  "foo": function foo(promise /* : Thenable | Array<Thenable> */) /* : Thenable */{
+  'when': function when(promise /* : Array<Thenable> */) /* : Thenable */{
     var deferred = this.defer();
+    var flags = {
+      done: [],
+      value: [],
+      error: []
+    };
+    var i = 0;
 
-    if (isArray(promise)) {}
+    function testFlags() {
+      var i = 0;
+      for (; i < flags.done.length; ++i) {
+        if (!flags.done[i]) {
+          return;
+        }
+      }
+      for (i = 0; i < flags.error.length; ++i) {
+        if (flags.error[i]) {
+          return deferred.reject(flags.value[i]);
+        }
+      }
+      deferred.resolve(flags.value);
+    }
+
+    for (; i < promise.length; i++) {
+      memoize(promise[i], flags, testFlags);
+    }
+
+    testFlags();
+
     return deferred.promise;
   },
-  "defer": function defer() /* : Deferred */{
+  'defer': function defer() /* : Deferred */{
     return new Promise().deferred;
   }
 };
 
-},{"./src/deferred":6,"./src/promise":9,"./src/thenable":11,"lodash.isarray":3}],2:[function(_dereq_,module,exports){
+},{"./src/deferred":5,"./src/promise":8,"./src/thenable":10}],2:[function(_dereq_,module,exports){
 
 // Use the fastest possible means to execute a task in a future turn
 // of the event loop.
@@ -134,43 +190,6 @@ module.exports = asap;
 
 
 },{}],3:[function(_dereq_,module,exports){
-/**
- * lodash 4.0.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @type Function
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-},{}],4:[function(_dereq_,module,exports){
 /* eslint-disable no-unused-vars */
 'use strict';
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -211,7 +230,7 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],5:[function(_dereq_,module,exports){
+},{}],4:[function(_dereq_,module,exports){
 'use strict';
 
 /* ::
@@ -310,7 +329,7 @@ function ChainFactory(promise /* : Promise */) /* : Chain */{
 
 module.exports = ChainFactory;
 
-},{"./promise":9,"object-assign":4}],6:[function(_dereq_,module,exports){
+},{"./promise":8,"object-assign":3}],5:[function(_dereq_,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -353,12 +372,12 @@ function Deferred(promise /* : Promise */) {
 
 module.exports = Deferred;
 
-},{"./next-tick":7,"./promise":9,"./thenable":11}],7:[function(_dereq_,module,exports){
+},{"./next-tick":6,"./promise":8,"./thenable":10}],6:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = _dereq_('asap');
 
-},{"asap":2}],8:[function(_dereq_,module,exports){
+},{"asap":2}],7:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -410,7 +429,7 @@ module.exports = function (promise /* : Promise */, x /* : any */) /* : void */{
   promise.state.fulfill(x);
 };
 
-},{"./promise":9,"./thenable":11}],9:[function(_dereq_,module,exports){
+},{"./promise":8,"./thenable":10}],8:[function(_dereq_,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -447,7 +466,7 @@ function Promise() {
 
 module.exports = Promise;
 
-},{"./chain":5,"./deferred":6,"./state":10,"./thenable":11}],10:[function(_dereq_,module,exports){
+},{"./chain":4,"./deferred":5,"./state":9,"./thenable":10}],9:[function(_dereq_,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -498,7 +517,7 @@ var State = function () {
 
 module.exports = State;
 
-},{"./proc":8,"./promise":9}],11:[function(_dereq_,module,exports){
+},{"./proc":7,"./promise":8}],10:[function(_dereq_,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -528,5 +547,5 @@ function Thenable(promise /* : Promise */) {
 
 module.exports = Thenable;
 
-},{"./promise":9}]},{},[1])(1)
+},{"./promise":8}]},{},[1])(1)
 });
