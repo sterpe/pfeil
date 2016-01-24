@@ -1,6 +1,6 @@
 {
   "name": "pfeil",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Decently fast, mnimalistic Promises/A+ for node & the browser.",
   "main": "dist/pfeil.min.js",
   "scripts": {
