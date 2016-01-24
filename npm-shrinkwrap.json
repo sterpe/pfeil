@@ -1,6 +1,6 @@
 {
   "name": "pfeil",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "asap": {
       "version": "1.0.0",
