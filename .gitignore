@@ -1,2 +1,4 @@
-bin/closure-compiler/
 node_modules/
+test-reports/
+coverage/
+*.buf*

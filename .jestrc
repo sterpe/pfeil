@@ -1,0 +1,11 @@
+{
+  "moduleFileExtensions": ["js", "json", "node"],
+  "preprocessorIgnorePatterns": [
+    "pfeil.min.js$"
+  ],
+  "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+  "setupTestFrameworkScriptFile": "<rootDir>/scripts/testsetup.js",
+  "testFileExtensions": ["js"],
+  "unmockedModulePathPatterns": [
+  ]
+}
